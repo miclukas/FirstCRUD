@@ -1,77 +1,20 @@
-films = [
-    {
-        'id': 1,
-        "title": "Oppenheimer",
-        "director": "Christopher Nolan",
-        "release_year": 2023
-    },
-    {
-        'id': 2,
-        "title": "Dune",
-        "director": "Denis Villeneuve",
-        "release_year": 2021
-    },
-    {
-        'id': 3,
-        "title": "Avengers",
-        "director": "Anthony Russo",
-        "release_year": 2019
-    },
-]
+from list_demo_data import load_films
+from list_CRUD import *
+
+films = load_films()
 id_counter = 3
 while True:
-    print("--------------------------------------------------------------------------")
-    print("1. Atvaizduoti filmu pasirinkimus")
-    print("2. Itraukti filma i sarasa")
-    print("3. Koreguoti filma")
-    print("4. Salinti filma")
-    print("5. Iseiti is programos")
-    print("-----------------------------Pasirinkite:---------------------------------")
+    print_info()
     opt = input()
     match opt:
         case '1':
-            for film in films:
-                print(f"{film['id']}. Filmas: {film['title']}, Rezisierius: {film['director']}, Isleidimo metai: {film['release_year']}.")
+            print_films(films)
         case '2':
-            print('filmu itraukimas:')
-            print("iveskite filmo pavadinima")
-            title = input()
-            print("iveskite rezisieriu")
-            director = input()
-            print("iveskite isleidimo metus")
-            release_year = int(input())
-            id_counter += 1
-            film = {
-                'id': id_counter,
-                'title': title,
-                'director': director,
-                'release_year': release_year
-            }
-            films.append(film)
+            id_counter = create_films(films, id_counter)
         case '3':
-            print('filmu redagavimas')
-            print('iveskite filmo id, kuri norite redaguoti')
-            edit_id = input()
-            for film in films:
-                if edit_id == str(film['id']):
-                    print(f'{film['id']}. Redaguojama: Filmas {film['title']}, rezisierius {film['director']}, isleidimo metai {film['release_year']}.')
-                    print("iveskite filma")
-                    film['title'] = input()
-                    print("iveskite rezisieriu")
-                    film['director'] = input()
-                    print("iveskite isleidimo metus")
-                    film['release_year'] = int(input())
-                    break
+            edit_films(films)
         case '4':
-            print("filmo salinimas")
-            print("iveskite filmo id, kuri norite pasalinti")
-            del_id = input()
-            for film in films:
-                if del_id == str(film['id']):
-                    print(
-                        f"{film['id']}. Salinamas filmas: {film['title']}, režisierius {film['director']}, išleidimo metai {film['release_year']}.")
-                    films.remove(film)
-                    break
+            remove_films(films)
         case'5':
             print("iseinu is programos")
             break
