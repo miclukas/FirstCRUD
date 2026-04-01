@@ -1,4 +1,4 @@
-from list_CRUD import *
+from db_CRUD import *
 
 while True:
     print_info()
@@ -7,11 +7,11 @@ while True:
         case '1':
             print_films()
         case '2':
-            id_counter = create_films()
+            create_film()
         case '3':
-            edit_films()
+            edit_film()
         case '4':
-            remove_films()
+            remove_film()
         case'5':
             print("Viso gero liaudis")
             break
