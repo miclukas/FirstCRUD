@@ -1,5 +1,16 @@
-from list_demo_data import load_films
-films = load_films()
+import csv
+
+headers = ['id', 'title', 'director', 'release_year']
+def load_films():
+    with open('./films.csv', mode='r', encoding='utf-8') as file:
+        return list(csv.DictReader(file))
+
+def save_films(films):
+    with open('./films.csv', mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, fieldnames=headers)
+        writer.writeheader()
+        writer.writerows(films)
+
 def print_info():
     print("--------------------------------------------------------------------------")
     print("1. Atvaizduoti filmu pasirinkimus")
@@ -10,13 +21,16 @@ def print_info():
     print("-----------------------------Pasirinkite:---------------------------------")
 
 def print_films():
+    films = load_films()
     for film in films:
         print(
             f"{film['id']}. Filmas: {film['title']}, "
-            f"Rezisierius: {film['director']}, Isleidimo metai: {film['release_year']}.")
+            f"Rezisierius: {film['director']}, Isleidimo metai: {film['release_year']}."
+        )
 
 def create_films():
-    print('filmu itraukimas:')
+    films = load_films()
+    print("filmu itraukimas:")
     print("iveskite filmo pavadinima")
     title = input()
     print("iveskite rezisieriu")
@@ -31,31 +45,37 @@ def create_films():
         'release_year': release_year
     }
     films.append(film)
-    return id_counter
+    save_films(films)
 
 def edit_films():
-    print('filmu redagavimas')
-    print('iveskite filmo id, kuri norite redaguoti')
+    films = load_films()
+    print("filmu redagavimas")
+    print("iveskite filmo id, kuri norite redaguoti")
     edit_id = input()
     for film in films:
         if edit_id == str(film['id']):
             print(
-                f'{film['id']}. Redaguojama: Filmas {film['title']}, rezisierius {film['director']}, isleidimo metai {film['release_year']}.')
-            print("iveskite filma")
+                f"{film['id']}. Redaguojama: Filmas {film['title']}, "
+                f"rezisierius {film['director']}, isleidimo metai {film['release_year']}."
+            )
+            print("iveskite filmo pavadinima")
             film['title'] = input()
             print("iveskite rezisieriu")
             film['director'] = input()
             print("iveskite isleidimo metus")
             film['release_year'] = int(input())
             break
+    save_films(films)
 
 def remove_films():
+    films = load_films()
     print("filmo salinimas")
     print("iveskite filmo id, kuri norite pasalinti")
     del_id = input()
     for film in films:
         if del_id == str(film['id']):
-            print(
-                f"{film['id']}. Salinamas filmas: {film['title']}, režisierius {film['director']}, išleidimo metai {film['release_year']}.")
+            print(f"{film['id']}. Salinamas filmas: {film['title']}, "
+                f"rezisierius {film['director']}, isleidimo metai {film['release_year']}.")
             films.remove(film)
             break
+    save_films(films)
